@@ -1,1 +1,369 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IBL | India Battle League</title>
+<style>
+:root{--gold:#e5a323;--orange:#f47c20;--bg:#fffaf1;--white:#fff;--ink:#292b32;--muted:#777;--line:#eee2ce;--green:#18834f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
+header{background:white;padding:13px 4%;border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:10}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:23px;font-weight:900;color:#b8790b}
+.logo small{display:block;font-size:10px;letter-spacing:3px;color:#777}
+nav{display:flex;gap:7px;overflow-x:auto;padding-top:12px}
+button{border:0;border-radius:8px;padding:11px 14px;background:var(--gold);color:white;font-weight:bold;cursor:pointer}
+nav button{background:white;color:#555;border:1px solid var(--line);white-space:nowrap}
+nav button.active,nav button:hover{background:#fff0d3;color:#98610a}
+.secondary{background:#fff1d8;color:#93600b;border:1px solid #efd5a5}
+.green{background:#e4f6eb;color:#167346}
+.red{background:#fff0ed;color:#b43c32}
+button:disabled{background:#ddd;color:#777;cursor:not-allowed}
+main{max-width:1150px;margin:auto;padding:18px 13px}
+section{display:none}
+section.active{display:block}
+h2{color:#a96b08}
+h3{margin:8px 0}
+.hero{padding:40px 15px;text-align:center;background:linear-gradient(120deg,#fff0d1,#fff9ef);border:1px solid #f0d8ad;border-radius:18px}
+.hero h1{font-size:clamp(30px,7vw,52px);color:#b4770d;margin:12px 0}
+.hero p{color:#666;line-height:1.7}
+.tag{display:inline-block;background:white;color:#a66c0c;border:1px solid #f1d7a5;border-radius:25px;padding:7px 12px;font-size:11px;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+.card{background:white;border:1px solid var(--line);padding:16px;border-radius:13px;box-shadow:0 4px 14px #8b641008}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px;margin:18px 0}
+.stat{background:white;border:1px solid var(--line);padding:14px;border-radius:11px}
+.stat strong{display:block;color:#ae740e;font-size:25px;margin-top:8px}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.pill{display:inline-block;padding:5px 9px;background:#fff0d5;color:#95610d;border-radius:20px;font-size:11px;font-weight:bold}
+form{display:grid;gap:11px}
+.field{display:grid;gap:6px}
+label{font-size:13px;font-weight:bold;color:#555}
+input,select,textarea{width:100%;padding:12px;border:1px solid #e6dece;border-radius:8px;background:white;color:#292b32;font:inherit}
+textarea{min-height:75px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1;min-width:0}
+.notice{padding:13px;border-radius:9px;background:#fff3db;color:#83560d;font-size:13px;line-height:1.6}
+.good{background:#e9f7ee;color:#176b42}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:white}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:#fff3dd;color:#96630c}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+footer{text-align:center;background:white;border-top:1px solid var(--line);padding:25px;color:#777;margin-top:30px}
+.hidden{display:none!important}
+.small{padding:7px 9px;font-size:12px}
+a{color:#14804d}
+@media(max-width:600px){header{padding:11px}main{padding:13px 9px}.hero{padding:27px 12px}nav button{font-size:12px;padding:9px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top">
+  <div class="logo">🏆 IBL <small>INDIA BATTLE LEAGUE</small></div>
+  <span class="pill" id="topCoins">🪙 0 Coins</span>
+ </div>
+ <nav>
+  <button class="active" onclick="page('home',this)">Home</button>
+  <button onclick="page('tournaments',this)">Tournaments</button>
+  <button onclick="page('account',this)">Player Account</button>
+  <button onclick="page('leaderboard',this)">Leaderboard</button>
+  <button onclick="page('wallet',this)">Wallet</button>
+  <button onclick="page('notifications',this)">Notifications</button>
+  <button onclick="page('admin',this)">Admin</button>
+  <button onclick="page('support',this)">Support</button>
+ </nav>
+</header>
 
+<main>
+<section id="home" class="active">
+ <div class="hero">
+  <span class="tag">INDIA ESPORTS TOURNAMENT PLATFORM</span>
+  <h1>INDIA BATTLE LEAGUE</h1>
+  <p>PLAY • COMPETE • RISE TO GLORY<br>अपना गेम दिखाओ और अपनी पहचान बनाओ!</p>
+  <button onclick="page('tournaments')">Explore Tournaments</button>
+  <button class="secondary" onclick="page('account')">Player Login / Signup</button>
+ </div>
+ <div class="stats">
+  <div class="stat">🏆 Tournaments<strong id="homeCount">0</strong></div>
+  <div class="stat">👥 Players<strong id="playerCount">0</strong></div>
+  <div class="stat">📝 Registrations<strong id="regCount">0</strong></div>
+  <div class="stat">🪙 My Coins<strong id="homeCoins">0</strong></div>
+ </div>
+ <h2>🔥 Featured Tournaments</h2>
+ <div class="grid" id="featured"></div>
+ <h2>📢 Latest Announcement</h2>
+ <div class="card" id="latestNotice">IBL में आपका स्वागत है!</div>
+ <p style="text-align:center"><a id="whatsappLink" href="#" target="_blank">WhatsApp Community Join करें</a></p>
+</section>
+
+<section id="tournaments">
+ <h2>🎮 All Tournaments</h2>
+ <p class="muted">Solo, Duo और Squad प्रतियोगिताएँ। हर टूर्नामेंट की सीमा individual players में गिनी जाएगी।</p>
+ <div class="grid" id="allTournaments"></div>
+</section>
+
+<section id="account">
+ <h2>👤 Player Account</h2>
+ <div class="card" id="signupBox">
+  <h3>Create Player Account</h3>
+  <form id="signupForm">
+   <div class="field"><label>Player Name</label><input id="pname" required placeholder="आपका नाम"></div>
+   <div class="field"><label>Custom Player ID</label><input id="pid" required placeholder="जैसे IBL1001"></div>
+   <div class="field"><label>Free Fire IGN</label><input id="ign" required placeholder="Game Name"></div>
+   <div class="field"><label>Free Fire UID</label><input id="uid" required placeholder="Game UID"></div>
+   <div class="field"><label>Email</label><input id="email" type="email" required></div>
+   <button>Create Demo Account</button>
+  </form>
+  <p class="muted">यह स्थानीय डेमो अकाउंट है। असली सुरक्षित Login और Password Recovery बाद में backend से जोड़े जाएँगे।</p>
+ </div>
+ <div class="card hidden" id="profileBox">
+  <h3>Welcome, <span id="profileName"></span> 👋</h3>
+  <p>Player ID: <b id="profileId"></b></p>
+  <p>Free Fire IGN: <b id="profileIgn"></b></p>
+  <p>Free Fire UID: <b id="profileUid"></b></p>
+  <div class="stats">
+   <div class="stat">Demo Coins<strong id="profileCoins">50</strong></div>
+   <div class="stat">My Registrations<strong id="myRegCount">0</strong></div>
+  </div>
+  <h3>My Registrations & Room Details</h3>
+  <div id="myRegistrations"></div>
+  <hr>
+  <button class="red" onclick="logout()">Logout</button>
+ </div>
+</section>
+
+<section id="leaderboard">
+ <h2>🏆 Published Leaderboard</h2>
+ <div class="tablewrap">
+  <table><thead><tr><th>Rank</th><th>Player</th><th>IGN</th><th>Score</th><th>Tournament</th></tr></thead>
+  <tbody id="leaderRows"><tr><td colspan="5">अभी परिणाम प्रकाशित नहीं हुए हैं।</td></tr></tbody></table>
+ </div>
+</section>
+
+<section id="wallet">
+ <h2>🪙 Wallet & Offers</h2>
+ <div class="card">
+  <h3>My Demo Balance: <span id="walletCoins">0</span> Coins</h3>
+  <p>🎁 Signup Bonus: 50 Demo Coins</p>
+  <p>🤝 Referral Bonus: 10 Demo Coins (डेमो)</p>
+  <p>🎮 First Match Free: Admin offer के अनुसार</p>
+  <div class="field"><label>Referral Code</label><input id="refCode" placeholder="Referral code"></div>
+  <button class="secondary" onclick="referral()">Apply Referral</button>
+  <p id="refMsg" class="muted"></p>
+  <hr>
+  <h3>💸 Withdrawal</h3>
+  <p>Minimum Withdrawal: <b>₹200</b></p>
+  <div class="field"><label>Withdrawal Amount (₹)</label><input id="withdrawAmount" type="number" min="200" placeholder="कम से कम 200"></div>
+  <button disabled>Request Withdrawal</button>
+  <div class="notice">Withdrawal का विकल्प और इतिहास UI में दिखाने के लिए रखा गया है। असली Cash Deposit, Cash Balance और Payment कानूनी मंजूरी तक बंद हैं। Demo Coins का कोई नकद मूल्य नहीं है।</div>
+  <h3>Withdrawal History</h3>
+  <div id="withdrawHistory" class="muted">अभी कोई रिकॉर्ड नहीं है।</div>
+ </div>
+</section>
+
+<section id="notifications">
+ <h2>🔔 Notifications & Offers</h2>
+ <div id="noticeList" class="grid"></div>
+</section>
+
+<section id="admin">
+ <h2>🛡️ Admin Panel</h2>
+ <div class="notice">यह केवल लोकल Demo Admin Panel है। PIN 1234 सिर्फ डेमो के लिए है, सुरक्षित Login नहीं। सार्वजनिक वेबसाइट पर इसका उपयोग असली Admin सुरक्षा के रूप में न करें।</div>
+ <div class="card" id="adminLogin">
+  <h3>Admin Login Demo</h3>
+  <form id="adminLoginForm">
+   <div class="field"><label>Demo Admin PIN</label><input id="adminPin" type="password" required placeholder="Demo PIN"></div>
+   <button>Login</button>
+  </form>
+  <p class="muted">Demo PIN: 1234</p>
+ </div>
+ <div id="adminPanel" class="hidden">
+  <div class="row">
+   <div class="card"><b>Players</b><h2 id="aPlayers">0</h2></div>
+   <div class="card"><b>Registrations</b><h2 id="aRegs">0</h2></div>
+   <div class="card"><b>Tournaments</b><h2 id="aTournaments">0</h2></div>
+  </div>
+  <hr>
+  <h3>➕ Create Tournament</h3>
+  <div class="card">
+   <form id="createForm">
+    <div class="field"><label>Tournament Name</label><input id="tname" required placeholder="IBL Battle #1"></div>
+    <div class="row">
+     <div class="field"><label>Mode</label><select id="tmode"><option>Solo</option><option>Duo</option><option>Squad</option></select></div>
+     <div class="field"><label>Maximum Individual Players</label><input id="tmax" type="number" value="50" min="1" max="50" required></div>
+    </div>
+    <div class="row">
+     <div class="field"><label>Match Date</label><input id="tdate" type="date"></div>
+     <div class="field"><label>Match Time</label><input id="ttime" type="time"></div>
+    </div>
+    <div class="field"><label>Rules / Description</label><textarea id="trules" placeholder="Tournament rules"></textarea></div>
+    <button>Create Tournament</button>
+   </form>
+  </div>
+  <h3>📝 Registration Approvals</h3>
+  <div class="tablewrap"><table><thead><tr><th>Player/Team</th><th>Tournament</th><th>Slots</th><th>Status</th><th>Action</th></tr></thead><tbody id="adminRegs"></tbody></table></div>
+  <h3>🔐 Custom Room Details</h3>
+  <div class="card">
+   <form id="roomForm">
+    <div class="field"><label>Tournament</label><select id="roomTournament"></select></div>
+    <div class="field"><label>Room ID</label><input id="roomId" required></div>
+    <div class="field"><label>Room Password</label><input id="roomPassword" required></div>
+    <button>Save Room Details</button>
+   </form>
+   <p class="muted">डेमो में Room ID/Password केवल Confirmed registrations को दिखते हैं।</p>
+  </div>
+  <h3>📊 Enter Match Score</h3>
+  <div class="card">
+   <form id="scoreForm">
+    <div class="field"><label>Tournament</label><select id="scoreTournament"></select></div>
+    <div class="field"><label>Player ID</label><input id="scorePlayer" required placeholder="IBL1001"></div>
+    <div class="field"><label>Score</label><input id="scoreValue" type="number" min="0" required></div>
+    <button>Save Score</button>
+   </form>
+   <button class="green" onclick="publishScores()">Publish Leaderboard</button>
+  </div>
+  <h3>📢 Announcement</h3>
+  <div class="card">
+   <form id="announcementForm">
+    <div class="field"><label>Announcement</label><textarea id="announcementText" required></textarea></div>
+    <button>Publish Announcement</button>
+   </form>
+  </div>
+  <h3>📲 WhatsApp Group Link</h3>
+  <div class="card">
+   <form id="whatsappForm">
+    <div class="field"><label>WhatsApp Invite URL</label><input id="waInput" type="url" placeholder="https://chat.whatsapp.com/..."></div>
+    <button>Save Link</button>
+   </form>
+  </div>
+  <h3>⚙️ Tournament Controls</h3>
+  <div id="adminTournaments" class="grid"></div>
+  <hr>
+  <button class="red" onclick="adminLogout()">Admin Logout</button>
+ </div>
+</section>
+
+<section id="support">
+ <h2>📞 Help & Support</h2>
+ <div class="grid">
+  <div class="card"><h3>❓ FAQ</h3><p>Registration Admin Approval के बाद Confirm होती है।</p><p>Room ID/Password Confirmed players को मिलता है।</p><p>Leaderboard Admin के Publish करने पर दिखता है।</p></div>
+  <div class="card"><h3>💬 Player Support</h3><form id="supportForm"><div class="field"><label>Your Name</label><input id="supportName" required></div><div class="field"><label>Your Message</label><textarea id="supportMessage" required></textarea></div><button>Submit Demo Request</button></form><p id="supportMsg" class="muted"></p></div>
+ </div>
+</section>
+</main>
+
+<footer>© 2026 India Battle League | IBL<br><small>Independent tournament platform. Not affiliated with Garena.</small></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const get=(k,d)=>{try{return JSON.parse(localStorage.getItem("ibl_"+k))??d}catch(e){return d}};
+const put=(k,v)=>localStorage.setItem("ibl_"+k,JSON.stringify(v));
+let players=get("players",[]);
+let tournaments=get("tournaments",[]);
+let registrations=get("registrations",[]);
+let scores=get("scores",[]);
+let notices=get("notices",["IBL में आपका स्वागत है!"]);
+let user=get("user",null);
+let coins=get("coins",0);
+let admin=false;
+let wa=get("wa","");
+
+function save(){
+put("players",players);put("tournaments",tournaments);
+put("registrations",registrations);put("scores",scores);
+put("notices",notices);put("user",user);put("coins",coins);
+put("wa",wa);render();
+}
+function page(id,btn){
+document.querySelectorAll("main section").forEach(s=>s.classList.remove("active"));
+$(id).classList.add("active");
+document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+if(btn)btn.classList.add("active");
+window.scrollTo(0,0);
+}
+function countSlots(tid){
+return registrations.filter(r=>r.tid===tid&&r.status!=="Rejected"&&r.status!=="Cancelled").reduce((a,r)=>a+r.slots,0);
+}
+function registerTournament(id){
+if(!user){alert("पहले Player Account बनाओ।");page("account");return}
+let t=tournaments.find(x=>x.id===id);if(!t)return;
+let slots=t.mode==="Solo"?1:t.mode==="Duo"?2:4;
+if(countSlots(id)+slots>t.max){alert("इस Tournament में जगह उपलब्ध नहीं है।");return}
+if(registrations.some(r=>r.tid===id&&r.pid===user.pid&&r.status!=="Rejected"&&r.status!=="Cancelled")){alert("आप पहले से Registered हैं।");return}
+let team="";
+if(slots>1){team=prompt("Team Name लिखें:");if(!team)return}
+let members=[{name:user.name,ign:user.ign,uid:user.uid}];
+for(let i=2;i<=slots;i++){
+let n=prompt("Player "+i+" का नाम");if(!n)return;
+let g=prompt("Player "+i+" का Free Fire IGN");if(!g)return;
+let u=prompt("Player "+i+" का UID");if(!u)return;
+members.push({name:n,ign:g,uid:u});
+}
+registrations.push({id:Date.now(),tid:id,pid:user.pid,team,slots,members,status:"Pending"});
+save();alert("Registration Pending! Admin approval का इंतजार करें।");
+}
+function render(){
+$("topCoins").textContent="🪙 "+coins+" Coins";
+$("homeCoins").textContent=coins;$("walletCoins").textContent=coins;
+$("homeCount").textContent=tournaments.length;
+$("playerCount").textContent=players.length;
+$("regCount").textContent=registrations.length;
+$("signupBox").classList.toggle("hidden",!!user);
+$("profileBox").classList.toggle("hidden",!user);
+if(user){
+$("profileName").textContent=user.name;$("profileId").textContent=user.pid;
+$("profileIgn").textContent=user.ign;$("profileUid").textContent=user.uid;
+$("profileCoins").textContent=coins;
+let mine=registrations.filter(r=>r.pid===user.pid);
+$("myRegCount").textContent=mine.length;
+$("myRegistrations").innerHTML=mine.map(r=>{
+let t=tournaments.find(x=>x.id===r.tid);
+let room=r.status==="Confirmed"&&t&&t.room?`<p>Room ID: <b>${esc(t.room.id)}</b><br>Room Password: <b>${esc(t.room.pass)}</b></p>`:"";
+return `<div class="card"><b>${esc(t?.name||"Tournament")}</b><p>Status: ${esc(r.status)}</p>${room}</div>`;
+}).join("")||"अभी कोई Registration नहीं।";
+}
+let cards=tournaments.map(t=>tournamentCard(t)).join("")||"<div class='card'>अभी कोई Tournament उपलब्ध नहीं है।</div>";
+$("featured").innerHTML=cards;$("allTournaments").innerHTML=cards;
+$("statT").textContent=tournaments.length;
+$("latestNotice").textContent=notices[notices.length-1]||"कोई Announcement नहीं";
+$("noticeList").innerHTML=notices.slice().reverse().map(n=>`<div class="card">📢 ${esc(n)}</div>`).join("");
+$("whatsappLink").href=wa||"#";
+$("whatsappLink").textContent=wa?"WhatsApp Community Join करें":"WhatsApp link जल्द उपलब्ध होगा";
+$("leaderRows").innerHTML=scores.length?scores.slice().sort((a,b)=>b.score-a.score).map((s,i)=>`<tr><td>${i+1}</td><td>${esc(s.name)}</td><td>${esc(s.ign)}</td><td>${s.score}</td><td>${esc(s.tname)}</td></tr>`).join(""):"<tr><td colspan='5'>अभी कोई परिणाम प्रकाशित नहीं हुआ है।</td></tr>";
+if(admin){renderAdmin()}
+}
+function tournamentCard(t){
+let used=countSlots(t.id),closed=used>=t.max;
+return `<div class="card"><span class="pill">${esc(t.mode)}</span><h3>${esc(t.name)}</h3><p class="muted">📅 ${esc(t.date||"Date जल्द")} ${esc(t.time||"")}<br>👥 ${used}/${t.max} individual players<br>📌 ${esc(t.rules||"Tournament Rules लागू होंगे")}</p><div style="height:8px;background:#eee;border-radius:10px;overflow:hidden"><div style="height:8px;background:#e5a323;width:${Math.min(100,used/t.max*100)}%"></div></div><p><b>${closed?"Registration Full":"Registration Open"}</b></p><button ${closed?"disabled":""} onclick="registerTournament(${t.id})">${closed?"Full":"Join Tournament"}</button></div>`;
+}
+$("signupForm").addEventListener("submit",e=>{
+e.preventDefault();
+let p={name:$("pname").value.trim(),pid:$("pid").value.trim(),ign:$("ign").value.trim(),uid:$("uid").value.trim(),email:$("email").value.trim()};
+if(players.some(x=>x.pid.toLowerCase()===p.pid.toLowerCase())){alert("यह Player ID पहले से मौजूद है।");return}
+if(players.some(x=>x.uid===p.uid)){alert("यह UID पहले से मौजूद है।");return}
+players.push(p);user=p;coins=50;notices.push("Welcome "+p.name+"! आपको 50 Demo Coins मिले।");save();alert("Demo account बन गया!");
+});
+function logout(){user=null;save()}
+function adminLogout(){admin=false;$("adminPanel").classList.add("hidden");$("adminLogin").classList.remove("hidden")}
+$("adminLoginForm").addEventListener("submit",e=>{
+e.preventDefault();if($("adminPin").value==="1234"){admin=true;$("adminLogin").classList.add("hidden");$("adminPanel").classList.remove("hidden");renderAdmin()}else alert("गलत Demo PIN");
+});
+$("createForm").addEventListener("submit",e=>{
+e.preventDefault();
+tournaments.push({id:Date.now(),name:$("tname").value,mode:$("tmode").value,max:Number($("tmax").value),date:$("tdate").value,time:$("ttime").value,rules:$("trules").value,room:null});
+save();e.target.reset();alert("Tournament बनाया गया!");
+});
+function renderAdmin(){
+$("aPlayers").textContent=players.length;$("aRegs").textContent=registrations.length;$("aTournaments").textContent=tournaments.length;
+$("adminRegs").innerHTML=registrations.map(r=>{
+let t=tournaments.find(x=>x.id===r.tid);
+return `<tr><td>${esc(r.team||r.members[0].name)}<br><small>${esc(r.pid)}</small></td><td>${esc(t?.name||"-")}</td><td>${r.slots}</td><td>${esc(r.status)}</td><td><button class="small green" onclick="approve(${r.id})">Approve</button> <button class="small red" onclick="reject(${r.id})">Reject</button></td></tr>`;
+}).join("")||"<tr><td colspan='5'>कोई Registration नहीं।</td></tr>";
+let opts=tournaments.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join("");
+$("roomTournament").innerHTML=opts;$("scoreTournament").innerHTML=opts;
+$("adminTournaments").innerHTML=tournaments.map(t=>`<div class="card"><b>${esc(t.name)}</b><p>${countSlots(t.id)}/${t.max} players</p><button class="small red" onclick="deleteTournament(${t.id})">Delete</button></div>`).join("");
+}
+function approve(id){
+let r=registrations.find(x=>x.id===id);if(!r)return;
+let t=tournaments.find(x=>x.
